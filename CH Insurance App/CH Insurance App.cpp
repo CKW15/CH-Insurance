@@ -50,16 +50,6 @@ void clearInputBuffer() {
 // ------------------------------- END ----------------------------------------------
 
 
-
-
-
-
-
-
-
-
-
-
 // -------------------------------- USER MENU  -------------------------
 
 void userMenu(const vector<User>& users, vector<InsurancePolicy>& policies, const string& currentUser) {
@@ -79,6 +69,26 @@ void userMenu(const vector<User>& users, vector<InsurancePolicy>& policies, cons
 
     cout << "\n Enter choice (1-4): ";
     cin >> choice;
+
+    switch (choice) {
+    case 1:
+        policyInfo();
+        break;
+    case 2:
+        // Add logic for making a claim
+        makeClaim(policies);
+        break;
+    case 3: {
+        cout << "test" << endl;
+    }
+    case 4:
+        cout << "test" << endl;
+        return;
+    default:
+        cout << "\n" << endl;
+        cout << " Invalid choice. Please try again." << endl;
+        clearInputBuffer();  // Clear invalid input
+    }
 }
 
 // ------------------------------------ END ------------------------
@@ -86,7 +96,7 @@ void userMenu(const vector<User>& users, vector<InsurancePolicy>& policies, cons
 
 
 
-// ----------------------- SAEVS POLICY TO : .txt FILE ---------------------------
+// ----------------------- SAVES POLICY TO : .txt FILE ---------------------------
 void savePolicies(const vector<InsurancePolicy>& policies) {
     ofstream file("policies.txt");
 
@@ -148,6 +158,53 @@ void policyInfo() {
     inputFile.close();
 }
 // ------------------------------------ END ------------------------------------------
+
+
+// ------------------ FUNCTION TO MAKE A CLAIM ----------------------------
+void makeClaim(vector<InsurancePolicy>& policies) {
+    cout << "\n" << endl;
+    cout << "          Choose claim type:" << endl;
+    cout << "           ------------------ " << endl;
+    cout << "\n" << endl;
+    cout << " 1. Stolen" << endl;
+    cout << "\n" << endl;
+    cout << " 2. Damaged" << endl;
+    cout << "\n" << endl;
+
+    int claimType;
+    while (true) {
+        cout << " Enter the number 1-2 for claim type: ";
+        cin >> claimType;
+        clearInputBuffer();  // Clear input buffer after reading claim type
+
+        if (cin.fail() || (claimType != 1 && claimType != 2)) {
+            cin.clear();
+            clearInputBuffer();
+            cout << " Invalid input. Please enter either 1 or 2 for the claim type." << endl;
+        }
+        else {
+            break;
+        }
+    }
+
+    // Add logic to process the claim based on the selected type
+    switch (claimType) {
+    case 1:
+        cout << "\n" << endl;
+        cout << " Claim for stolen vehicle submitted successfully." << endl;
+        break;
+    case 2:
+        cout << "\n" << endl;
+        cout << " Claim for damaged vehicle submitted successfully." << endl;
+        break;
+    default:
+        cout << "\n" << endl;
+        cout << " Invalid claim type. Please try again." << endl;
+        break;
+    }
+}
+// ------------------------------ END -----------------------------------------------
+
 
 // ------------------ LOGIN USER / GIVES 3 ATTEMPTS -Harlen   ------------------------------------------
 User loginUser(const vector<User>& users, string& currentUser) {
@@ -281,7 +338,7 @@ User createAccount(vector<User>& users) {
 
 // ---------------------------------- DISPLAY ADMIN MENU ----------------------------------------------------
 
-// LOGIN USER AND PASSWORD FOR ADMIN ACCOUNT : admin1 / admin1
+// LOGIN USER AND PASSWORD FOR ADMIN ACCOUNT : admin / admin1
 
 void adminMenu(vector<User>& users, vector<InsurancePolicy>& policies) {
     int choice;
@@ -351,11 +408,68 @@ void adminMenu(vector<User>& users, vector<InsurancePolicy>& policies) {
             }
             break;
         }
-        case 3:
-            cout << " TEST 5 " << endl;
+        case 3: {// Add new policy
+            string customerName, make, model, regNum, insurer, policyType;
+            int policyNumber;
+            cout << " Enter customer name: ";
+            cin >> customerName;
+            cout << " \n" << endl;
+            cout << " Enter car make: ";
+            cin >> make;
+            cout << " \n" << endl;
+            cout << " Enter car model: ";
+            cin >> model;
+            cout << " \n" << endl;
+            cout << " Enter vehicle registration number: ";
+            cin >> regNum;
+            cout << " \n" << endl;
+            cout << " Enter insurer name: ";
+            cout << "\n" << endl;
+
+            getline(cin, insurer);
+            cout << "\n" << endl;
+            cout << " Enter policy type: ";
+            cout << "\n" << endl;
+            cout << " 1: Full ";
+            cout << "\n" << endl;
+            cout << " 2: Third Party ";
+            cout << "\n" << endl;
+            cout << " 3: Theft" << endl;
+
+            cin >> policyNumber;
+
+            clearInputBuffer();
+
+            switch (policyNumber) {
+            case 1:
+                policyType = " Full";
+                break;
+            case 2:
+                policyType = " Third Party";
+                break;
+            case 3:
+                policyType = " Theft";
+                break;
+            default:
+                cout << " Invalid policy type. Please choose a number between 1 and 3." << endl;
+                continue;  // Continue the loop for invalid input
+            }
+
+            policies.emplace_back(customerName, make, model, regNum, insurer, policyType);
+            policies.back().policyNumber = policyNumber;
+            savePolicies(policies);
+            cout << " Insurance policy added successfully." << endl;
             break;
+        }
         case 4:
-            cout << " TEST 4" << endl;
+            cout << "\n All Insurance Policies:" << endl;
+            for (const auto& policy : policies) {
+                cout << " Customer Name: " << policy.custName << " | Car Make: " << policy.carMake
+                    << " | Car Model: " << policy.carModel << " | Rego: " << policy.carRego
+                    << " | Insurer: " << policy.insurerName << " | Policy Type: " << policy.policyType
+                    << " | Policy Number: " << policy.policyNumber << endl;
+            }
+            break;
 
             break;
         case 5: {
@@ -384,11 +498,13 @@ void adminMenu(vector<User>& users, vector<InsurancePolicy>& policies) {
         }
     } while (true);
 }
+
 // ----------------------------------------- END ---------------------------------------------------------------
 
 
 
 // ----------------------------- DISPLAYS MAIN MENU  -------------------------
+
 void displayMainMenu() {
    
     cout << "\n **** CH Insurance ****" << endl;
