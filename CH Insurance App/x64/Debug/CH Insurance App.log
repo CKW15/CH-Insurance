@@ -1,3 +1,2 @@
 ﻿  CH Insurance App.cpp
-C:\Users\ckwil\OneDrive\Desktop\CH-Insurance\CH Insurance App\CH Insurance App.cpp(75,9): error C3861: 'policyInfo': identifier not found
-C:\Users\ckwil\OneDrive\Desktop\CH-Insurance\CH Insurance App\CH Insurance App.cpp(79,9): error C3861: 'makeClaim': identifier not found
+  CH Insurance App.vcxproj -> C:\Users\Harlen\Desktop\CH-Insurance\CH Insurance App\x64\Debug\CH Insurance App.exe
