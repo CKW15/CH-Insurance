@@ -1,6 +1,8 @@
 // -------------------------------- BLANK  -------------------------
 // ------------------------------------ END ------------------------
 
+
+
 // -------------------------- CH INSURANCE APP -------------------------------
 #include<iostream>
 #include <fstream>
@@ -22,6 +24,63 @@ public:
 // ----------------------------- END ---------------------------------------------
 
 
+// ------------------ UTILITY FUNCTION TO CLEAR INPUT BUFFER ------------------------
+void clearInputBuffer() {
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
+// ------------------------------- END ----------------------------------------------
+
+
+
+// -------------------------------- USER MENU  -------------------------
+
+void adminMenu(vector<User>& users) {
+
+    int choice;
+
+    cout << "\n         Admin Menu: " << endl;
+    cout << "\n          ------------ " << endl;
+
+    cout << "\n 1. Add new user" << endl;
+
+    cout << "\n 2. View all users" << endl;
+
+    cout << "\n 3. Add new insurance policy" << endl;
+
+    cout << "\n 4. View all policies" << endl;
+
+    cout << "\n 5. Remove User" << endl;  // Option to remove a user
+
+    cout << "\n 6. Logout" << endl;  // Log-out option
+
+    cout << "\n Enter choice (1-6): ";
+    cin >> choice;
+}
+
+// ------------------------------------ END ------------------------
+
+// -------------------------------- USER MENU  -------------------------
+
+void userMenu(vector<User>& users) {
+
+    int choice;
+
+    cout << "\n         User Menu: " << endl;
+    cout << "\n        ------------ " << endl;
+
+    cout << "\n 1. View Available Policies" << endl;
+
+    cout << "\n 2. Make a Claim" << endl;
+
+    cout << "\n 3. Sign-Up for Insurance Policy" << endl;
+
+    cout << "\n 4. Logout" << endl;
+
+    cout << "\n Enter choice (1-4): ";
+    cin >> choice;
+}
+
+// ------------------------------------ END ------------------------
 
 
 // -------------------------------- VIEW POLICY DESCRIPTIONS -------------------------
@@ -47,6 +106,42 @@ void policyInfo() {
     inputFile.close();
 }
 // ------------------------------------ END ------------------------------------------
+
+// ------------------ LOGIN USER / GIVES 3 ATTEMPTS -Harlen   ------------------------------------------
+User loginUser(const vector<User>& users, string& currentUser) {
+    const int maxAttempts = 3;
+
+    for (int attempt = 1; attempt <= maxAttempts; ++attempt) {
+        cout << "Enter username: ";
+        string username;
+        cin >> username;
+        cout << " \n" << endl;
+
+        cout << "Enter password: ";
+        string password;
+        cin >> password;
+        cout << " \n" << endl;
+        clearInputBuffer();
+
+        for (const auto& user : users) {
+            if (user.username == username && user.password == password) {
+                currentUser = username;
+                cout << "Login successful. Welcome, " << username << '!' << endl;
+                return user;
+            }
+        }
+
+        cout << " Invalid username or password. " << maxAttempts - attempt << " attempts remaining." << endl;
+        cout << " \n" << endl;
+    }
+
+    cout << " Too many failed attempts. Exiting login." << endl;
+    cout << " \n" << endl;
+    return User("", "", false);
+}
+//------------------------------------------ END -------------------------------------------------------------
+
+
 
 // -------------------------------- USER INPUT FOR MAIN MENU  ----------------
 int getUserChoice() {
@@ -144,7 +239,10 @@ void displayMainMenu() {
 // ------------------------------------- INT MAIN ---------------------------------------------------------------------
 int main() {
     vector<User> users;
+    string currentUser;
+    
     int choice;
+
     do {
 
       displayMainMenu();
@@ -159,10 +257,22 @@ int main() {
       case 2:
           createAccount(users);
           break;
-      case 3:
-          cout << "test3" << endl;
+      case 3: {
+
+          User loggedInUser = loginUser(users, currentUser);
+
+          if (loggedInUser.isAdmin) {
+              adminMenu(users);
+          }
+          else if (!loggedInUser.username.empty()) {
+              userMenu(users);
+          }
+          else {
+              cout << " Login failed. Please try again." << endl;
+          }
           break;
-      case 4:
+      }
+          case 4:
           cout << "test4" << endl;
           break;
       }
