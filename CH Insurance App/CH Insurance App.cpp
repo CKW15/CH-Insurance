@@ -51,36 +51,18 @@ void clearInputBuffer() {
 
 
 
-// -------------------------------- ADMIN USER MENU  -------------------------
 
-void adminMenu(vector<User>& users) {
 
-    int choice;
 
-    cout << "\n         Admin Menu: " << endl;
-    cout << "\n          ------------ " << endl;
 
-    cout << "\n 1. Add new user" << endl;
 
-    cout << "\n 2. View all users" << endl;
 
-    cout << "\n 3. Add new insurance policy" << endl;
 
-    cout << "\n 4. View all policies" << endl;
 
-    cout << "\n 5. Remove User" << endl;  // Option to remove a user
-
-    cout << "\n 6. Logout" << endl;  // Log-out option
-
-    cout << "\n Enter choice (1-6): ";
-    cin >> choice;
-}
-
-// ------------------------------------ END ------------------------
 
 // -------------------------------- USER MENU  -------------------------
 
-void userMenu(vector<User>& users) {
+void userMenu(const vector<User>& users, vector<InsurancePolicy>& policies, const string& currentUser) {
 
     int choice;
 
@@ -100,6 +82,47 @@ void userMenu(vector<User>& users) {
 }
 
 // ------------------------------------ END ------------------------
+
+
+
+
+// ----------------------- SAEVS POLICY TO : .txt FILE ---------------------------
+void savePolicies(const vector<InsurancePolicy>& policies) {
+    ofstream file("policies.txt");
+
+    for (const auto& policy : policies) {
+        file << policy.custName << ' ' << policy.carMake << ' ' << policy.carModel << ' '
+            << policy.carRego << ' ' << policy.insurerName << ' ' << policy.policyType << ' '
+            << policy.policyNumber << endl;
+    }
+}
+
+//--------------------------------- END ---------------------------------------------------
+
+
+
+// -------------------------- LOADS POLICY FROM TXT FILE ---------------------------------- 
+vector<InsurancePolicy> loadPolicies() {
+    vector<InsurancePolicy> policies;
+    ifstream file("policies.txt");
+
+    if (!file.is_open()) {
+        cout << "Error opening policies file." << endl;
+        return policies;
+    }
+
+    string customerName, make, model, regoNum, insurer, policyType;
+    int policyNumber;
+
+    while (file >> customerName >> make >> model >> regoNum >> insurer >> policyType >> policyNumber) {
+        policies.emplace_back(customerName, make, model, regoNum, insurer, policyType);
+        policies.back().policyNumber = policyNumber;
+    }
+
+    return policies;
+}
+// ------------------------------ END -------------------------------------------------------
+
 
 
 // -------------------------------- VIEW POLICY DESCRIPTIONS -------------------------
@@ -256,6 +279,114 @@ User createAccount(vector<User>& users) {
 //------------------------------------------- END -------------------------------------------------------------
 
 
+// ---------------------------------- DISPLAY ADMIN MENU ----------------------------------------------------
+
+// LOGIN USER AND PASSWORD FOR ADMIN ACCOUNT : admin1 / admin1
+
+void adminMenu(vector<User>& users, vector<InsurancePolicy>& policies) {
+    int choice;
+
+    do {
+        cout << "\n" << endl;
+        cout << "\n         Admin Menu: " << endl;
+        cout << "          ------------ " << endl;
+        cout << "\n" << endl;
+        cout << " 1. Add new user" << endl;
+        cout << "\n" << endl;
+        cout << " 2. View all users" << endl;
+        cout << "\n" << endl;
+        cout << " 3. Add new insurance policy" << endl;
+        cout << "\n" << endl;
+        cout << " 4. View all policies" << endl;
+        cout << "\n" << endl;
+        cout << " 5. Remove User" << endl;  // Option to remove a user
+        cout << "\n" << endl;
+        cout << " 6. Logout" << endl;  // Log-out option
+        cout << "\n" << endl;
+        cout << " Enter choice (1-6): ";
+        cin >> choice;
+
+        switch (choice) {
+        case 1: {
+            // Create account within admin for staff
+            string uname, pwd, confirmPwd;
+            bool admin;
+            cout << " Enter new username: ";
+            cin >> uname;
+            cout << " \n" << endl;
+
+            // Ask for the password and its confirmation
+            do {
+                cout << " Enter new password: ";
+                cin >> pwd;
+                cout << " \n" << endl;
+
+                cout << " Confirm password: ";
+                cin >> confirmPwd;
+                cout << " \n" << endl;
+
+                if (pwd != confirmPwd) {
+                    cout << " Passwords do not match. Please try again." << endl;
+                }
+                else if (pwd == uname) {
+                    cout << " Password cannot be the same as the username. Please choose a different password." << endl;
+                }
+            } while (pwd != confirmPwd || pwd == uname);
+
+            cout << " Is the user an admin? (1 for Yes, 0 for No): ";
+            cin >> admin;
+
+            users.emplace_back(uname, pwd, admin);
+            saveUsers(users);
+
+            cout << " \n" << endl;
+            cout << " User added successfully." << endl;
+            break;
+        }
+        case 2: {
+            // View all users
+            cout << "\n All Users:" << endl;
+            for (const auto& user : users) {
+                cout << " Username: " << user.username << ", Admin: " << user.isAdmin << endl;
+            }
+            break;
+        }
+        case 3:
+            cout << " TEST 5 " << endl;
+            break;
+        case 4:
+            cout << " TEST 4" << endl;
+
+            break;
+        case 5: {
+            cout << " TEST 5" << endl;
+        }
+        case 6: {
+            // Log-out
+            cout << " Logging out..." << endl;
+            return;
+        }
+        default: {
+            cout << " Invalid choice. Please try again." << endl;
+            break;
+        }
+        }
+
+        if (cin.fail()) {
+            cin.clear();
+            clearInputBuffer();
+            cout << "\n" << endl;
+            cout << " Invalid input. Please enter a valid number between 1 and 6." << endl;
+            cout << "\n" << endl;
+        }
+        else {
+            clearInputBuffer();
+        }
+    } while (true);
+}
+// ----------------------------------------- END ---------------------------------------------------------------
+
+
 
 // ----------------------------- DISPLAYS MAIN MENU  -------------------------
 void displayMainMenu() {
@@ -275,7 +406,7 @@ void displayMainMenu() {
 // ------------------------------------- INT MAIN ---------------------------------------------------------------------
 int main() {
     vector<User> users = loadUsers();
-    
+    vector<InsurancePolicy> policies = loadPolicies();
     
     int choice;
 
@@ -295,14 +426,13 @@ int main() {
           break;
       case 3: {
           string currentUser;
-
           User loggedInUser = loginUser(users, currentUser);
 
           if (loggedInUser.isAdmin) {
-              adminMenu(users);
+              adminMenu(users, policies);
           }
           else if (!loggedInUser.username.empty()) {
-              userMenu(users);
+              userMenu(users, policies, currentUser);
           }
           else {
               cout << " Login failed. Please try again." << endl;
