@@ -24,6 +24,25 @@ public:
 // ----------------------------- END ---------------------------------------------
 
 
+// -------------------------------- INSURANCE POLICY CLASS ATTRIBUTES  -------------------------
+
+class InsurancePolicy {
+public:
+    string custName;
+    string carMake;
+    string carModel;
+    string carRego;
+    string insurerName;
+    string policyType;
+    int policyNumber;
+
+    InsurancePolicy(const string& customerName, const string& make, const string& model, const string& regoNum, const string& insurer, const string& type)
+        : custName(customerName), carMake(make), carModel(model), carRego(regoNum), insurerName(insurer), policyType(type) {}
+};
+
+// ------------------------------------ END ------------------------
+
+
 // ------------------ UTILITY FUNCTION TO CLEAR INPUT BUFFER ------------------------
 void clearInputBuffer() {
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -32,7 +51,7 @@ void clearInputBuffer() {
 
 
 
-// -------------------------------- USER MENU  -------------------------
+// -------------------------------- ADMIN USER MENU  -------------------------
 
 void adminMenu(vector<User>& users) {
 
@@ -179,6 +198,23 @@ void saveUsers(const vector<User>& users) {
 
 //---------------------------------- END --------------------------------------------
 
+//------------------------- LOADS USERS FROM TXT FILE  -------------------------------------
+vector<User> loadUsers() {
+    vector<User> users;
+    ifstream file("users.txt");
+    string uname, pwd;
+    bool admin;
+
+    // Add default admin user
+    users.emplace_back("admin", "admin1", true);
+    
+    while (file >> uname >> pwd >> admin) {
+        users.emplace_back(uname, pwd, admin);
+    }
+
+    return users;
+}
+// -------------------------- END ---------------------------------------------------------
 
 //  ------------------------------------ CREATE ACCOUNT FUNCTION -----------------------------------------------
 User createAccount(vector<User>& users) {
@@ -238,8 +274,8 @@ void displayMainMenu() {
 
 // ------------------------------------- INT MAIN ---------------------------------------------------------------------
 int main() {
-    vector<User> users;
-    string currentUser;
+    vector<User> users = loadUsers();
+    
     
     int choice;
 
@@ -258,6 +294,7 @@ int main() {
           createAccount(users);
           break;
       case 3: {
+          string currentUser;
 
           User loggedInUser = loginUser(users, currentUser);
 
