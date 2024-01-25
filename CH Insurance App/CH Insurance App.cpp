@@ -152,6 +152,7 @@ int getUserChoice() {
 
         if (cin.fail() || choice < 1 || choice > 4) {
             cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cout << "\n" << endl;
             cout << " Invalid input. Please enter a valid number between 1 and 4." << endl;
             cout << "\n" << endl;
@@ -347,9 +348,6 @@ User loginUser(const vector<User>& users, string& currentUser) {
 //------------------------------------------ END -------------------------------------------------------------
 
 
-
-
-
 // ---------------------------------- DISPLAY ADMIN MENU ----------------------------------------------------
 
 // LOGIN USER AND PASSWORD FOR ADMIN ACCOUNT : admin / admin1
@@ -519,8 +517,6 @@ void adminMenu(vector<User>& users, vector<InsurancePolicy>& policies) {
 
 
 
-
-
 // ------------------------------------- USER MENU -------------------------------------------------------------
 void userMenu(const vector<User>& users, vector<InsurancePolicy>& policies, const string& currentUser) {
     while (true) {
@@ -645,9 +641,6 @@ void userMenu(const vector<User>& users, vector<InsurancePolicy>& policies, cons
         }
     }
 }
-
-
-
 //--------------------------------------- END -----------------------------------------------------------------
 
 
