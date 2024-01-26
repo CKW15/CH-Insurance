@@ -437,39 +437,55 @@ void adminMenu(vector<User>& users, vector<InsurancePolicy>& policies) {
             cout << " \n" << endl;
             cout << " Enter insurer name: ";
             cout << "\n" << endl;
-
             getline(cin, insurer);
+
+            // Policy type input and validation
             cout << "\n" << endl;
-            cout << " Enter policy type: ";
+            cout << "Select policy type:";
             cout << "\n" << endl;
             cout << " 1: Full ";
             cout << "\n" << endl;
             cout << " 2: Third Party ";
             cout << "\n" << endl;
             cout << " 3: Theft" << endl;
+            
+            while (true) {
+                cout << "\n" << endl;
+                cout << " Please select policy type you require : ";
+                cin >> policyNumber;
 
-            cin >> policyNumber;
-
-            clearInputBuffer();
+                if (cin.fail() || policyNumber < 1 || policyNumber > 3) {
+                    cin.clear();
+                    clearInputBuffer();
+                    cout << "\n" << endl;
+                    cout << " Invalid input. Please enter a valid number between 1 and 3." << endl;
+                }
+                else {
+                    clearInputBuffer();
+                    break;
+                }
+            }
 
             switch (policyNumber) {
             case 1:
-                policyType = " Full";
+                policyType = "Full";
                 break;
             case 2:
-                policyType = " Third Party";
+                policyType = "Third Party";
                 break;
             case 3:
-                policyType = " Theft";
+                policyType = "Theft";
                 break;
             default:
+                // Validators 
                 cout << " Invalid policy type. Please choose a number between 1 and 3." << endl;
-                continue;  // Continue the loop for invalid input
+                continue;  // loop for incorrect input continues to run 
             }
 
             policies.emplace_back(customerName, make, model, regNum, insurer, policyType);
             policies.back().policyNumber = policyNumber;
             savePolicies(policies);
+            cout << "\n" << endl;
             cout << " Insurance policy added successfully." << endl;
             break;
         }
@@ -482,6 +498,7 @@ void adminMenu(vector<User>& users, vector<InsurancePolicy>& policies) {
                     << " | Policy Number: " << policy.policyNumber << endl;
             }
             break;
+
         case 5: {
             // Remove user by username
             string usernameToRemove;
@@ -490,11 +507,13 @@ void adminMenu(vector<User>& users, vector<InsurancePolicy>& policies) {
             removeUser(users, usernameToRemove);
             break;
         }
+
         case 6: {
             // Log-out
             cout << " Logging out..." << endl;
             return;
         }
+
         default: {
             cout << " Invalid choice. Please try again." << endl;
             break;
@@ -666,6 +685,7 @@ int main() {
       case 2:
           createAccount(users);
           break;
+
       case 3: {
           string currentUser;
           User loggedInUser = loginUser(users, currentUser);
@@ -681,10 +701,16 @@ int main() {
           }
           break;
       }
-          case 4:
-          cout << "test4" << endl;
-          break;
+       case 4:
+
+           cout << " Exiting... " << endl;
+           break;
+       default:
+           
+           cout << " Invalid choice. Please try again. " << endl;
+           ;  // Clear invalid input
       }
+
     } while (choice != 4);;
 
     return 0;
