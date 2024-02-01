@@ -245,6 +245,8 @@ void makeClaim(vector<InsurancePolicy>& policies) {
     cout << "          Choose claim type:" << endl;
     cout << "           ------------------ " << endl;
     cout << "\n" << endl;
+    cout << " You have chosen to make a claim please select from the options below: " << endl;
+    cout << "\n" << endl;
     cout << " 1. Stolen" << endl;
     cout << "\n" << endl;
     cout << " 2. Damaged" << endl;
@@ -364,6 +366,8 @@ void adminMenu(vector<User>& users, vector<InsurancePolicy>& policies) {
         cout << "\n         Admin Menu: " << endl;
         cout << "          ------------ " << endl;
         cout << "\n" << endl;
+        cout << " Welcome to the Admin Menu, Please select from the following: " << endl;
+        cout << "\n" << endl;
         cout << " 1. Add new user" << endl;
         cout << "\n" << endl;
         cout << " 2. View all users" << endl;
@@ -384,6 +388,8 @@ void adminMenu(vector<User>& users, vector<InsurancePolicy>& policies) {
             // Create account from admin menu 
             string uname, pwd, confirmPwd;
             bool admin;
+            cout << " To Create a new customer or Admin account please follow prompts below: " << endl;
+            cout << " \n" << endl;
             cout << " Enter new username: ";
             cin >> uname;
             cout << " \n" << endl;
@@ -418,7 +424,7 @@ void adminMenu(vector<User>& users, vector<InsurancePolicy>& policies) {
         }
         case 2: {
             // View current users
-            cout << "\n All Users:" << endl;
+            cout << "\n All Registered Users below:" << endl;
             for (const auto& user : users) {
                 cout << " Username: " << user.username << ", Admin: " << user.isAdmin << endl;
             }
@@ -427,6 +433,9 @@ void adminMenu(vector<User>& users, vector<InsurancePolicy>& policies) {
         case 3: { // Add new policy
             string customerName, make, model, regNum, insurer, policyType;
             int policyNumber;
+
+            cout << " Thank you for choosing to register for a new policy please input details as prompted: " << endl; 
+            cout << " \n" << endl;
             cout << " Enter customer name: ";
             cin >> customerName;
             cout << " \n" << endl;
@@ -445,7 +454,7 @@ void adminMenu(vector<User>& users, vector<InsurancePolicy>& policies) {
 
             // Policy type input and validation
             cout << "\n" << endl;
-            cout << "Select policy type:";
+            cout << " Please Select policy type:";
             cout << "\n" << endl;
             cout << " 1: Full ";
             cout << "\n" << endl;
@@ -494,7 +503,7 @@ void adminMenu(vector<User>& users, vector<InsurancePolicy>& policies) {
             break;
         }
         case 4:
-            cout << "\n All Insurance Policies:" << endl;
+            cout << "\n All Currently Registered Insurance Policies:" << endl;
             for (const auto& policy : policies) {
                 cout << " Customer Name: " << policy.custName << " | Car Make: " << policy.carMake
                     << " | Car Model: " << policy.carModel << " | Rego: " << policy.carRego
@@ -547,6 +556,8 @@ void userMenu(const vector<User>& users, vector<InsurancePolicy>& policies, cons
         cout << "\n        User Menu :" << endl;
         cout << "       ------------ " << endl;
         cout << "\n" << endl;
+        cout << " Welcome to the Main User Menu, Please select from the following options: " << endl;
+        cout << "\n" << endl;
         cout << " 1. View Available Policies" << endl;
         cout << "\n" << endl;
         cout << " 2. Make a Claim" << endl;
@@ -585,7 +596,8 @@ void userMenu(const vector<User>& users, vector<InsurancePolicy>& policies, cons
             //  signing up for a new insurance policy
             string customerName, make, model, regNum, insurer, policyType;
             int policyNumber;
-
+            cout << "\n" << endl;
+            cout << " Thank you for choosing to register for a new policy please input details as prompted: " << endl;
             // list policy requirements 
             cout << "\n" << endl;
             cout << " Enter customer name: ";
