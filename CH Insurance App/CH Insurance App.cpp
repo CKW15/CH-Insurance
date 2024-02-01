@@ -173,13 +173,31 @@ int getUserChoice() {
 
 // -------------------- SAVES USER LOGIN TO : .txt FILE  --------------------------
 void saveUsers(const vector<User>& users) {
-    ofstream file("users.txt", ios::app);  // Open file in append mode
+    bool userExistsInFile(const User & userToCheck);
+    ofstream file("users.txt", ios::trunc);
 
     for (const auto& user : users) {
+        if (userExistsInFile(user)) {
+            continue;
+        }
+
         file << user.username << ' ' << user.password << ' ' << user.isAdmin << endl;
     }
 }
 
+bool userExistsInFile(const User& userToCheck) {
+    ifstream file("users.txt");
+    string uname, pwd;
+    bool admin;
+
+    while (file >> uname >> pwd >> admin) {
+        if (uname == userToCheck.username && pwd == userToCheck.password && admin == userToCheck.isAdmin) {
+            return true;  // User already exists in the file
+        }
+    }
+
+    return false;  // User does not exist in the file
+}
 //---------------------------------- END --------------------------------------------
 
 //------------------------- LOADS USERS FROM TXT FILE  -------------------------------------
