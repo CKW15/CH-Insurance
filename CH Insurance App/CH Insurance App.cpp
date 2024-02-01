@@ -122,8 +122,12 @@ void policyInfo() {
 // ----------------------------- DISPLAYS MAIN MENU  ------------------------------------------
 void displayMainMenu() {
     cout << "\n" << endl;
-    cout << "                CH Insurance  " << endl;
-    cout << "           ---------------------- " << endl;
+    cout << "                              CH Insurance  " << endl;
+    cout << "                         ---------------------- " << endl;
+    cout << " Welcome to the CH Insurance App where you can manage your insurance policies with ease."<<endl;
+    cout << " If you're interested in signing-up to one of our amzaing policies,our user-friendly interface makes it simple." << endl;
+    cout << "\n" << endl;
+    cout << " Please select an option from the menu below to get started: " << endl; 
     cout << "\n" << endl;
     cout << " 1. View Available Policies" << endl;
     cout << "\n" << endl;
