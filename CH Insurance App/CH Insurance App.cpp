@@ -595,11 +595,12 @@ void adminMenu(vector<User>& users, vector<InsurancePolicy>& policies) {
 // ------------------------------------- USER MENU -------------------------------------------------------------
 void userMenu(const vector<User>& users, vector<InsurancePolicy>& policies, const string& currentUser) {
     while (true) {
-        cout << "\n" << endl;
+        cout << "\n" << endl;        
+        
         cout << "\n        User Menu :" << endl;
         cout << "       ------------ " << endl;
         cout << "\n" << endl;
-        cout << " Welcome to the Main User Menu, Please select from the following options: " << endl;
+        cout << "\n Welcome " << currentUser << ",\n\n Please choose from the following menu options below:" << endl;
         cout << "\n" << endl;
         cout << " 1. View Available Policies" << endl;
         cout << "\n" << endl;
