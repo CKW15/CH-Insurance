@@ -93,8 +93,8 @@ vector<InsurancePolicy> loadPolicies() {
 
 // -------------------------------- VIEW POLICY DESCRIPTIONS -------------------------
 void policyInfo() {
-    cout << "\n          Available Insurance Policies " << endl;
-    cout << "            ---------------------------- " << endl;
+    cout << "\n                           Available Insurance Policies " << endl;
+    cout << "                           ---------------------------- " << endl;
     cout << endl;
     ifstream inputFile("policy-desc.txt");
 
@@ -107,7 +107,7 @@ void policyInfo() {
     string line;
     while (getline(inputFile, line)) {
         // Process each line as needed
-        cout << line << endl;
+        cout << "       " << line << endl;
     }
 
     // Close the file
