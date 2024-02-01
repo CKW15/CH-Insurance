@@ -518,7 +518,7 @@ void adminMenu(vector<User>& users, vector<InsurancePolicy>& policies) {
             cout << " Customer Name: " << customerName << endl;
             cout << " Car Make: " << make << endl;
             cout << " Car Model: " << model << endl;
-            cout << " Rego:: " << regNum << endl;
+            cout << " Rego: " << regNum << endl;
             cout << " Insurer name: " << insurer << endl;
             cout << " Policy Type: " << policyType << endl;
 
@@ -729,7 +729,7 @@ void userMenu(const vector<User>& users, vector<InsurancePolicy>& policies, cons
             cout << " Customer Name: " << customerName << endl;
             cout << " Car Make: " << make << endl;
             cout << " Car Model: " << model << endl;
-            cout << " Rego:: " << regNum << endl;
+            cout << " Rego: " << regNum << endl;
             cout << " Insurer name: " << insurer << endl;
             cout << " Policy Type: " << policyType << endl;
 
