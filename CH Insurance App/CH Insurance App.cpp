@@ -531,11 +531,36 @@ void adminMenu(vector<User>& users, vector<InsurancePolicy>& policies) {
             break;
 
         case 5: {
-            // Remove user by username
-            string usernameToRemove;
-            cout << " Enter username to remove: ";
-            cin >> usernameToRemove;
-            removeUser(users, usernameToRemove);
+            // Display list of users
+            cout << "\n All Users:" << endl;
+            for (size_t i = 0; i < users.size(); ++i) {
+                cout << " " << i + 1 << ". Username: " << users[i].username << ", Admin: " << users[i].isAdmin << endl;
+            }
+
+            // Remove user by index
+            if (!users.empty()) {
+                int userIndex;
+                do {
+                    cout << "\n Enter the number corresponding to the user you want to remove (1 - " << users.size() << "): ";
+                    cin >> userIndex;
+
+                    if (cin.fail() || userIndex < 1 || userIndex > static_cast<int>(users.size())) {
+                        cin.clear();
+                        clearInputBuffer();
+                        cout << "\n Invalid input. Please enter a valid number between 1 and " << users.size() << "." << endl;
+                    }
+                    else {
+                        clearInputBuffer();
+                        string usernameToRemove = users[userIndex - 1].username;
+                        removeUser(users, usernameToRemove);
+                        cout << "\n User removed successfully." << endl;
+                        break;
+                    }
+                } while (true);
+            }
+            else {
+                cout << "\n No users to remove." << endl;
+            }
             break;
         }
 
