@@ -512,7 +512,29 @@ void adminMenu(vector<User>& users, vector<InsurancePolicy>& policies) {
                 cout << " Invalid policy type. Please choose a number between 1 and 3." << endl;
                 continue;  // loop for incorrect input continues to run 
             }
+            // Print the entered details for confirmation
 
+            cout << "\n Confirming entered details:" << endl;
+            cout << " Customer Name: " << customerName << endl;
+            cout << " Car Make: " << make << endl;
+            cout << " Car Model: " << model << endl;
+            cout << " Rego:: " << regNum << endl;
+            cout << " Insurer name: " << insurer << endl;
+            cout << " Policy Type: " << policyType << endl;
+
+
+            // Ask for confirmation
+            char confirm;
+            cout << "\n" << endl;
+            cout << " Confirm details? (Y/N): ";
+            cin >> confirm;
+            if (toupper(confirm) != 'Y') {
+                cout << "\n" << endl;
+                cout << " Details not confirmed. Exiting without saving." << endl;
+                break;
+            }
+
+            // Add the policy to the vector and save
             policies.emplace_back(customerName, make, model, regNum, insurer, policyType);
             policies.back().policyNumber = policyNumber;
             savePolicies(policies);
@@ -701,7 +723,29 @@ void userMenu(const vector<User>& users, vector<InsurancePolicy>& policies, cons
                 cout << " Invalid policy type. Please choose a number between 1 and 3." << endl;
                 continue;  // loop for incorrect input continues to run 
             }
+            // Print the entered details for confirmation
 
+            cout << "\n Confirming entered details:" << endl;
+            cout << " Customer Name: " << customerName << endl;
+            cout << " Car Make: " << make << endl;
+            cout << " Car Model: " << model << endl;
+            cout << " Rego:: " << regNum << endl;
+            cout << " Insurer name: " << insurer << endl;
+            cout << " Policy Type: " << policyType << endl;
+
+
+            // Ask for confirmation
+            char confirm;
+            cout << "\n" << endl;
+            cout << " Confirm details? (Y/N): ";
+            cin >> confirm;
+            if (toupper(confirm) != 'Y') {
+                cout << "\n" << endl;
+                cout << " Details not confirmed. Exiting without saving." << endl;
+                break;
+            }
+
+            // Add the policy to the vector and save
             policies.emplace_back(customerName, make, model, regNum, insurer, policyType);
             policies.back().policyNumber = policyNumber;
             savePolicies(policies);
