@@ -89,7 +89,31 @@ vector<InsurancePolicy> loadPolicies() {
 }
 // ------------------------------ END -------------------------------------------------------
 
+// ------------------ View user policies ------------------------
 
+void viewUserPolicies(const vector<InsurancePolicy>& policies, const string& currentUser) {
+    cout << "\n" << endl;
+    cout << " Insurance Policies for User: " << currentUser << endl;
+    cout << " --------------------------------" << endl;
+
+    bool found = false;
+    for (const auto& policy : policies) {
+        if (policy.custName == currentUser) {
+            found = true;
+            cout << " Customer Name: " << policy.custName << " | Car Make: " << policy.carMake
+                << " | Car Model: " << policy.carModel << " | Rego: " << policy.carRego
+                << " | Insurer: " << policy.insurerName << " | Policy Type: " << policy.policyType
+                << " | Policy Number: " << policy.policyNumber << endl;
+        }
+    }
+
+    if (!found) {
+        cout << " No policies found for user: " << currentUser << endl;
+    }
+}
+
+
+// ------------------------------- END ----------------------------------------------
 
 // -------------------------------- VIEW POLICY DESCRIPTIONS -------------------------
 void policyInfo() {
@@ -476,7 +500,7 @@ void adminMenu(vector<User>& users, vector<InsurancePolicy>& policies) {
             cout << "\n" << endl;
             cout << " 1: Full ";
             cout << "\n" << endl;
-            cout << " 2: Third Party ";
+            cout << " 2: Third-Party ";
             cout << "\n" << endl;
             cout << " 3: Theft" << endl;
             
@@ -502,7 +526,7 @@ void adminMenu(vector<User>& users, vector<InsurancePolicy>& policies) {
                 policyType = "Full";
                 break;
             case 2:
-                policyType = "Third Party";
+                policyType = "Third-Party";
                 break;
             case 3:
                 policyType = "Theft";
@@ -630,19 +654,20 @@ void userMenu(const vector<User>& users, vector<InsurancePolicy>& policies, cons
         cout << "\n" << endl;
         cout << " 3. Sign-Up for Insurance Policy" << endl;
         cout << "\n" << endl;
-        cout << " 4. Log-Out" << endl;
+        cout << " 4. View My Policies" << endl;  // New option
+        cout << "\n" << endl; 
+        cout << " 5. Log-Out" << endl; 
 
         int choice;
-        // validators 
         while (true) {
-            cout << "\n" << endl;
-            cout << "Please input choice (1 - 4) : ";
+            cout << "Please input choice (1 - 5) : ";
             cin >> choice;
 
-            if (cin.fail() || choice < 1 || choice > 4) {
+            if (cin.fail() || choice < 1 || choice > 5) {
                 cin.clear();
                 clearInputBuffer();
-                cout << " Invalid input. Please enter a valid number between 1 and 4." << endl;
+                cout << "\n" << endl;
+                cout << " Invalid input. Please enter a valid number between 1 and 5." << endl;
             }
             else {
                 clearInputBuffer();
@@ -687,7 +712,7 @@ void userMenu(const vector<User>& users, vector<InsurancePolicy>& policies, cons
             cout << "\n" << endl;
             cout << " 1: Full ";
             cout << "\n" << endl;
-            cout << " 2: Third Party ";
+            cout << " 2: Third-Party ";
             cout << "\n" << endl;
             cout << " 3: Theft" << endl;
 
@@ -713,7 +738,7 @@ void userMenu(const vector<User>& users, vector<InsurancePolicy>& policies, cons
                 policyType = "Full";
                 break;
             case 2:
-                policyType = "Third Party";
+                policyType = "Third-Party";
                 break;
             case 3:
                 policyType = "Theft";
@@ -754,13 +779,15 @@ void userMenu(const vector<User>& users, vector<InsurancePolicy>& policies, cons
             break;
         }
         case 4:
-            cout << "\n" << endl;
-            cout << " Logging out... " << endl;
+            // View policies for the current user
+            viewUserPolicies(policies, currentUser);
+            break;
+        case 5:
+            cout << "Logging out..." << endl;
             return;
         default:
-            cout << "\n" << endl;
-            cout << " Invalid choice. Please try again." << endl;
-            clearInputBuffer();  // Clears char for invalid choices 
+            cout << "Invalid choice. Please try again." << endl;
+            clearInputBuffer();
         }
     }
 }
